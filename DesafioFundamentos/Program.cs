@@ -30,25 +30,40 @@ while (exibirMenu)
     Console.WriteLine("4 - Encerrar");
 
     switch (Console.ReadLine())
-    {
-        case "1":
+    {   // Coloquei tryCatch, apenas pq vi que algumas entradas encerram o programa ,apertar o enter em alguns momentos encerra o programa.
+        case "1":try{
             es.AdicionarVeiculo();
+              }catch(Exception ex){
+            Console.WriteLine("Ocorereu um erro inesperado - "+ex.Message);
+        }
             break;
 
-        case "2":
+        case "2":try{
             es.RemoverVeiculo();
+             }catch(Exception ex){
+            Console.WriteLine("Ocorereu um erro inesperado - "+ex.Message);
+        }
             break;
 
-        case "3":
+        case "3":try{
             es.ListarVeiculos();
+             }catch(Exception ex){
+            Console.WriteLine("Ocorereu um erro inesperado - "+ex.Message);
+        }
             break;
 
-        case "4":
+        case "4":try{
             exibirMenu = false;
+             }catch(Exception ex){
+            Console.WriteLine("Ocorereu um erro inesperado - "+ex.Message);
+        }
             break;
 
-        default:
+        default:try{
             Console.WriteLine("Opção inválida");
+             }catch(Exception ex){
+            Console.WriteLine("Ocorereu um erro inesperado - "+ex.Message);
+        }
             break;
     }
 

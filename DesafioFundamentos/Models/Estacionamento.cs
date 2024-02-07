@@ -1,7 +1,14 @@
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Linq.Expressions;
+using System.Reflection.Metadata;
+using System.Text.RegularExpressions;
+
 namespace DesafioFundamentos.Models
 {
+ 
     public class Estacionamento
-    {
+    { 
         private decimal precoInicial = 0;
         private decimal precoPorHora = 0;
         private List<string> veiculos = new List<string>();
@@ -13,35 +20,52 @@ namespace DesafioFundamentos.Models
         }
 
         public void AdicionarVeiculo()
-        {
-            // TODO: Pedir para o usuário digitar uma placa (ReadLine) e adicionar na lista "veiculos"
-            // *IMPLEMENTE AQUI*
-            Console.WriteLine("Digite a placa do veículo para estacionar:");
-        }
+        { 
+            bool menu = true;
+            // Ciclo de repeticao onde retorna caso o usuario erre a placa ou digite a placa de um carro ja estacionado
+            while (menu)
+            {
+                Console.WriteLine("Digite a placa do veículo para estacionar:");
+                string addPlaca = Console.ReadLine();
+                addPlaca = addPlaca.ToUpper();
 
+                if (Regex.IsMatch(addPlaca, "[A-Za-z]{4}[0-9]{4}$"))
+                {
+                    if (!veiculos.Contains(addPlaca))
+                    {
+                        veiculos.Add(addPlaca);
+                        Console.WriteLine("Carro cadastrado com sucesso.");
+                        menu = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Nao e possivel cadastrar o mesmo carro 2 vezes");
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Desculpe mas algo deu errado,digite novante a placa.");
+                }
+            }
+      
+        }
         public void RemoverVeiculo()
         {
+
             Console.WriteLine("Digite a placa do veículo para remover:");
-
-            // Pedir para o usuário digitar a placa e armazenar na variável placa
-            // *IMPLEMENTE AQUI*
-            string placa = "";
-
+            string removerPlaca = Console.ReadLine();
+            removerPlaca = removerPlaca.ToUpper();
             // Verifica se o veículo existe
-            if (veiculos.Any(x => x.ToUpper() == placa.ToUpper()))
-            {
+            if (veiculos.Any(x => x.ToUpper() == removerPlaca.ToUpper()))
+            {   // Faz o calculo do valor total a ser pago
                 Console.WriteLine("Digite a quantidade de horas que o veículo permaneceu estacionado:");
+                string inputHoras = Console.ReadLine();
+                int horas = int.Parse(inputHoras);
+                decimal valorTotal = precoInicial + (precoPorHora * horas);
 
-                // TODO: Pedir para o usuário digitar a quantidade de horas que o veículo permaneceu estacionado,
-                // TODO: Realizar o seguinte cálculo: "precoInicial + precoPorHora * horas" para a variável valorTotal                
-                // *IMPLEMENTE AQUI*
-                int horas = 0;
-                decimal valorTotal = 0; 
-
-                // TODO: Remover a placa digitada da lista de veículos
-                // *IMPLEMENTE AQUI*
-
-                Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal}");
+                veiculos.Remove(removerPlaca.ToUpper());
+                Console.WriteLine($"O veículo {removerPlaca} foi removido e o preço total foi de: R$ {valorTotal}");
             }
             else
             {
@@ -55,8 +79,10 @@ namespace DesafioFundamentos.Models
             if (veiculos.Any())
             {
                 Console.WriteLine("Os veículos estacionados são:");
-                // TODO: Realizar um laço de repetição, exibindo os veículos estacionados
-                // *IMPLEMENTE AQUI*
+                foreach (string item in veiculos)
+                {   // Lista os veiculos separando a placa com "-" exemplo aaaa-1111
+                    Console.WriteLine($"Placa do veiculo: {(item.Substring(0, 4) + "-" + item.Substring(4, 4))}");
+                }
             }
             else
             {
